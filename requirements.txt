@@ -1,0 +1,14 @@
+# Minimal runtime dependencies for the ConvFill generation/evaluation scripts.
+# These are the direct packages needed by src/ plus tokenizer support for the
+# configured DeBERTa models. Transitive packages are intentionally not listed.
+
+anthropic==0.100.0
+openai==2.36.0
+ratelimit==2.2.1
+Jinja2==3.1.6
+
+torch==2.11.0
+transformers==5.5.4
+bert-score==0.3.13
+sentencepiece==0.2.1
+protobuf==5.29.6

@@ -1,0 +1,13 @@
+# SGD service names, ready to paste into the SGD_SERVICES array of a scaffold config.
+# SGD intentionally holds out some services from `train` to test generalization,
+# so picking the right list depends on which SGD_SPLITS you want to draw from.
+
+# All 45 services across train/dev/test:
+'Alarm_1', 'Banks_1', 'Banks_2', 'Buses_1', 'Buses_2', 'Buses_3', 'Calendar_1', 'Events_1', 'Events_2', 'Events_3', 'Flights_1', 'Flights_2', 'Flights_3', 'Flights_4', 'Homes_1', 'Homes_2', 'Hotels_1', 'Hotels_2', 'Hotels_3', 'Hotels_4', 'Media_1', 'Media_2', 'Media_3', 'Messaging_1', 'Movies_1', 'Movies_2', 'Movies_3', 'Music_1', 'Music_2', 'Music_3', 'Payment_1', 'RentalCars_1', 'RentalCars_2', 'RentalCars_3', 'Restaurants_1', 'Restaurants_2', 'RideSharing_1', 'RideSharing_2', 'Services_1', 'Services_2', 'Services_3', 'Services_4', 'Trains_1', 'Travel_1', 'Weather_1'
+
+# 26 services with >=1 dialogue in train (use with SGD_SPLITS=["train"]):
+'Banks_1', 'Buses_1', 'Buses_2', 'Calendar_1', 'Events_1', 'Events_2', 'Flights_1', 'Flights_2', 'Homes_1', 'Hotels_1', 'Hotels_2', 'Hotels_3', 'Media_1', 'Movies_1', 'Music_1', 'Music_2', 'RentalCars_1', 'RentalCars_2', 'Restaurants_1', 'RideSharing_1', 'RideSharing_2', 'Services_1', 'Services_2', 'Services_3', 'Travel_1', 'Weather_1'
+
+# 19 services NOT in train (only in dev or test). To use these, set
+# SGD_SPLITS=["train", "dev", "test"] (or whichever covers them):
+'Alarm_1', 'Banks_2', 'Buses_3', 'Events_3', 'Flights_3', 'Flights_4', 'Homes_2', 'Hotels_4', 'Media_2', 'Media_3', 'Messaging_1', 'Movies_2', 'Movies_3', 'Music_3', 'Payment_1', 'RentalCars_3', 'Restaurants_2', 'Services_4', 'Trains_1'

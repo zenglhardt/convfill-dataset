@@ -1,0 +1,70 @@
+{
+   "conversation": [
+      {
+         "user": "Please can i make a reservation at a restaurant?",
+         "thoughts": [
+            "<sil>",
+            "<sil>",
+            "May i know your preferred restaurant and location?"
+         ],
+         "response": [
+            "Of course, I'd be happy to help you with a reservation.",
+            "Let me get some details from you.",
+            "May I know your preferred restaurant and the location you have in mind?"
+         ]
+      },
+      {
+         "user": "I want a Palermo restaurant in San Jose for a 19:30 appointment.",
+         "thoughts": [
+            "<sil>",
+            "Please can you confirm that want you want is a Table for 2 at Palermo Italian Restaurant in the City of San Jose and that reservation be made for 7:30 pm today."
+         ],
+         "response": [
+            "Palermo in San Jose, great choice!",
+            "So just to confirm, you'd like a table for two at Palermo Italian Restaurant in the City of San Jose, and you'd like that reservation made for seven thirty pm today, is that correct?"
+         ]
+      },
+      {
+         "user": "Oh yes that is what i want. Thank you.",
+         "thoughts": [
+            "<sil>",
+            "<sil>",
+            "<sil>",
+            "The reservation has been successfully made."
+         ],
+         "response": [
+            "Perfect, glad we're on the same page.",
+            "Let me go ahead and get that set up for you right now.",
+            "Everything looks good on my end.",
+            "Your reservation has been successfully made!"
+         ]
+      },
+      {
+         "user": "Can i have the address in San Jose as well as their contact number.",
+         "thoughts": [
+            "It is located at street umber 791 Auzerais Avenue and thetheir phone number is 408-295-6459."
+         ],
+         "response": [
+            "Sure, it's located at 791 Auzerais Avenue, and their phone number is 408-295-6459."
+         ]
+      },
+      {
+         "user": "TI appreciate your help thanks.",
+         "thoughts": [
+            "Is there any other thing i can help you with?"
+         ],
+         "response": [
+            "Is there anything else I can help you with?"
+         ]
+      },
+      {
+         "user": "No for now. Thank you.",
+         "thoughts": [
+            "Do have a lovely day."
+         ],
+         "response": [
+            "Alright, do have a lovely day!"
+         ]
+      }
+   ]
+}

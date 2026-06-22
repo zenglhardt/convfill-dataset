@@ -1,0 +1,42 @@
+{
+  "PROVIDER": "anthropic",
+  "MODEL_NAME": "claude-opus-4-6",
+  "TEMPERATURE": 1.0,
+  "MAX_TOKENS": 4000,
+  "CALLS_PER_MINUTE": 200,
+
+  "EXPERIMENT_NAME": "conversations_v3_med_full",
+  "OUTPUT_DIR": "generated_data",
+  "CACHE_DIR": "generated_data",
+
+  "TOPICS_FILENAME": "topics/topics_medical.txt",
+  "EXAMPLE_PATH": "examples/example_med.txt",
+  "NUM_REQUESTS": 1000,
+  "NUM_WORKERS": 100,
+  "TURNS_MIN": 7,
+  "TURNS_MAX": 10,
+  "MAX_RETRIES": 20,
+  "P2_PERSONA": "",
+
+  "SIL_MIN": 0,
+  "SIL_MAX": 3,
+
+  "SUBSTANCE_MIN": 1,
+  "SUBSTANCE_MAX": 5,
+
+  "MAX_FILLER_REUSE": 2,
+
+  "MIN_SUBSTANCE_LENGTH": 5,
+
+  "NLI_MODEL_NAME": "MoritzLaurer/DeBERTa-v3-base-mnli",
+  "CONTRADICTION_PAIR_MAX": 0.20,
+  "ENTAILMENT_PAIR_MIN": 0.0,
+  "CONTRADICTION_WHOLE_TURN_MAX": 0.30,
+  "ENTAILMENT_WHOLE_TURN_MIN": 0.0,
+
+  "BERT_SCORE_MODEL": "microsoft/deberta-xlarge-mnli",
+  "BERT_SCORE_NUM_LAYERS": 40,
+  "THOUGHT_RESPONSE_BERT_MIN": 0.70,
+
+  "INCLUDE_METADATA": true
+}

@@ -1,0 +1,8 @@
+This repository is dual-licensed.
+
+Code and supporting release files are licensed under the MIT License.
+See LICENSE-CODE-MIT.txt.
+
+Data, topic seeds, and examples are licensed under Creative Commons
+Attribution-ShareAlike 4.0 International.
+See LICENSE-DATA-CC-BY-SA-4.0.txt.

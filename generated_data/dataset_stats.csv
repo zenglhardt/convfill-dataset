@@ -1,0 +1,9 @@
+dataset,num_conversations,num_turns,turns_per_conv_mean,turns_per_conv_std,num_phrase_pairs,phrases_per_turn_mean,phrases_per_turn_std,num_sil,sil_per_turn_mean,sil_per_turn_std,num_nonsil,nonsil_per_turn_mean,nonsil_per_turn_std
+conversations_v3_advice_full.jsonl,1000,8308,8.3080,1.1415,36710,4.4186,1.8221,12342,1.4856,1.1366,24368,2.9331,1.4227
+conversations_v3_assistant_full.jsonl,1000,8408,8.4080,1.1320,37495,4.4594,1.8188,12676,1.5076,1.1147,24819,2.9518,1.4238
+conversations_v3_cs_full.jsonl,1000,8313,8.3130,1.1041,35862,4.3140,1.8180,12147,1.4612,1.1298,23715,2.8528,1.4242
+conversations_v3_education_full.jsonl,1000,8421,8.4210,1.1053,37153,4.4119,1.7948,12481,1.4821,1.1266,24672,2.9298,1.4247
+conversations_v3_med_full.jsonl,1000,8400,8.4000,1.1153,37246,4.4340,1.8168,12540,1.4929,1.1127,24706,2.9412,1.4179
+conversations_v3_planning_full.jsonl,1005,8474,8.4318,1.0993,37488,4.4239,1.8073,12655,1.4934,1.1321,24833,2.9305,1.4202
+conversations_v3_scaffold_dstc8_full.jsonl,2438,24184,9.9196,3.3247,68617,2.8373,1.2798,36711,1.5180,1.1179,31906,1.3193,0.6092
+TOTAL,8443,74508,8.8248,2.1370,290571,3.8999,1.8154,111552,1.4972,1.1231,179019,2.4027,1.4323

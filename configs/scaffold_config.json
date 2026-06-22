@@ -1,0 +1,49 @@
+{
+  "PROVIDER": "anthropic",
+  "MODEL_NAME": "claude-opus-4-6",
+  "TEMPERATURE": 1.0,
+  "MAX_TOKENS": 4000,
+  "CALLS_PER_MINUTE": 50,
+
+  "EXPERIMENT_NAME": "conversations_v3_scaffold_dstc8_full",
+  "OUTPUT_DIR": "generated_data",
+  "CACHE_DIR": "generated_data",
+
+  "GENERATION_MODE": "scaffold",
+  "TOPICS_FILENAME": "",
+  "EXAMPLE_PATH": "examples/example_dstc8.txt",
+  "PROMPT_TEMPLATE_PATH": "prompt_template_scaffold.txt",
+
+  "SGD_DATA_PATH": "dstc8-schema-guided-dialogue",
+  "SGD_SPLITS": ["train"],
+  "SGD_SERVICES": [],
+
+  "NUM_REQUESTS": 10000,
+  "NUM_WORKERS": 10,
+  "CAP_MAX": true,
+  "MAX_RETRIES": 5,
+  "RANDOM_SEED": 42,
+
+  "SIL_MIN": 0,
+  "SIL_MAX": 3,
+
+  "SUBSTANCE_MIN": 1,
+  "SUBSTANCE_MAX": 10,
+
+  "MAX_FILLER_REUSE": 2,
+  "MIN_SUBSTANCE_LENGTH": 1,
+
+  "NLI_MODEL_NAME": "MoritzLaurer/DeBERTa-v3-base-mnli",
+  "CONTRADICTION_PAIR_MAX": 0.2,
+  "ENTAILMENT_PAIR_MIN": 0.0,
+  "CONTRADICTION_WHOLE_TURN_MAX": 0.30,
+  "ENTAILMENT_WHOLE_TURN_MIN": 0.0,
+
+  "BERT_SCORE_MODEL": "microsoft/deberta-xlarge-mnli",
+  "BERT_SCORE_NUM_LAYERS": 40,
+  "THOUGHT_RESPONSE_BERT_MIN": 0.70,
+  "SCAFFOLD_THOUGHT_BERT_MIN": 0.95,
+  "CHECK_SCAFFOLD_PROPER_NOUNS": true,
+
+  "INCLUDE_METADATA": true
+}

@@ -1,0 +1,157 @@
+{# ================================================================== #}
+{# SECTION 1: CONVERSATION SETUP                                      #}
+{# ================================================================== #}
+You are completing a partial conversation between two people, P1 and P2.
+The "user" turns and the "thoughts" arrays are already filled in by an
+external source; you only fill the response arrays.
+    * All conversations are spoken out loud, so spell out any numbers or expressions, remove quotation marks for words.
+    * Both sides should be proactive and contribute to the conversation.
+    * P1 is {{ p1 }}
+    * P2 is {{ p2 }}
+    * The conversation comes from a {{ service_pretty }} domain; P2 is a knowledgeable assistant for that domain.
+    * All turns MUST have content.
+    * Allowed characters in user, thoughts, and response strings: English letters,
+      digits, spaces, and these punctuation marks ONLY: . , ! ? ; : ' - / ( ) "
+      DO NOT use underscores, asterisks, ampersands, brackets, braces, hash, dollar,
+      percent, or any other symbol. Spell out anything else (e.g. "and" not "&",
+      "dollars" not "$", "slash" only as the punctuation "/").
+    * Do not include names, all references should be in first or second person
+
+{# ================================================================== #}
+{# SECTION 2: RESPONSE RULES                                          #}
+{# ================================================================== #}
+Response Rules (how P2 actually speaks):
+    * The response array represents P2 speaking in real time, line by line.
+    * Some lines are "infill" -- contextually appropriate dialogue P2 says BEFORE
+      having the full answer. These are NOT generic fillers like "hmm" or "let me think."
+      Instead, they are natural continuations of the conversation grounded only in
+      the narrow context window described in SECTION 3 (the previous turn and the
+      current turn so far): acknowledging what P1 just said, restating part of the
+      current question, showing understanding of the immediate exchange. They should
+      feel like a real person naturally beginning to respond while thinking and
+      formulating their answer -- using ONLY what was just said, not earlier history.
+    * The remaining lines deliver the substantive information conversationally.
+    * Each response entry is the conversational delivery of its corresponding thought.
+      Keep responses tight rather than paragraph-length.
+    * Connect parts of turns naturally (adverbs, transitions, etc.)
+    * VARY the number of sentences per turn, EVERY ONE SHOULD BE DIFFERENT
+    * DO NOT use discourse markers at the END of phrases, but naturally throughout is ok.
+    * Be nice and conversational; add words and phrases that bring a casual, calm, yet serious tone
+
+{# ================================================================== #}
+{# SECTION 3: INFILL SPECIFICATION                                     #}
+{# ================================================================== #}
+INFILL LINE SPECIFICATION:
+    Infill lines are contextual dialogue P2 says before delivering substantive
+    information -- NOT generic fillers.
+
+    Infill visibility: when P2 produces an infill line, the only visible
+    context is the previous turn (P1's user message and P2's complete
+    response) and the current turn so far (P1's user message and any earlier
+    infill lines already produced in this turn's response array). Each infill
+    must be grounded only in that visible context.
+
+    Good infill lines:
+      - Acknowledge or react to what P1 specifically said
+      - Restate or reflect on the question in P2's own words
+      - Share a brief relevant opinion or experience that connects to the topic
+      - Show genuine engagement with the specific situation
+    Bad infill lines (DO NOT produce these):
+      - Generic fillers disconnected from context ("Hmm", "Let me think", "Good question")
+      - Empty acknowledgments that could apply to any conversation
+      - Phrases that stall without adding any contextual value
+
+    The number of infill lines per turn is fixed by the scaffold ("<sil>"
+    entries in the thoughts array). If a turn has 0 "<sil>" entries, P2
+    jumps straight to substantive content.
+
+{# ================================================================== #}
+{# SECTION 4: INFILL QUALITY                                          #}
+{# ================================================================== #}
+INFILL QUALITY REQUIREMENTS:
+    * Every infill line must be SPECIFIC to what P1 just said in this turn or
+      what was exchanged in the immediately previous turn.
+    * Do NOT reuse the same phrase or pattern across turns.
+    * Infill lines should vary naturally in shape and function -- whatever
+      fits the current moment is fine.
+    * Infill lines should flow naturally into the substantive content that follows.
+
+    CONCRETE EXAMPLE OF THE MOST COMMON FAILURE:
+    Suppose turn 1 (early in the dialogue) the user asked to play "Casablanca"
+    and the assistant queued it. Many turns later, the dialogue ends:
+
+      previous turn: user "Yes, play now."
+                     response "Great, your movie is starting now! Enjoy your movie!"
+      current turn:  user "Thank you. Good bye."
+                     thoughts ["<sil>", "<sil>", "<sil>", "you are welcome, good bye."]
+
+      WRONG infill: "Hope you enjoy Casablanca."
+        ^ violates the visibility window: "Casablanca" was named MANY turns
+          ago, NOT in the previous turn or the current turn. This is FORBIDDEN
+          even though it sounds natural and "the conversation knows about it".
+      RIGHT infill: "It was my pleasure helping you out today."
+        ^ grounded in the immediate goodbye exchange, no leaked content.
+
+    If a thought is short and you cannot find natural-sounding infills that
+    stay inside the visibility window, use brief acknowledgments grounded
+    in the current/previous turn -- never reach further back to make the
+    delivery richer.
+
+{# ================================================================== #}
+{# SECTION 5: OUTPUT FORMAT                                            #}
+{# ================================================================== #}
+Output in JSON Format (ONLY the JSON. Inside user, thoughts, and response strings,
+use ONLY: English letters, digits, whitespace, and the punctuation . , ! ? ; : ' - / ( ) "
+NO underscores, asterisks, ampersands, brackets, braces, or other symbols):
+    * The output MUST be wrapped in a "conversation" array containing turn objects
+    * Each turn object must have:
+        * user: What P1 says (PRE-FILLED -- copy verbatim, do not modify)
+        * thoughts: Concise, direct information for each part of P2's turn (PRE-FILLED -- copy verbatim, do not modify)
+        * response: How P2 actually says it in conversation (THIS IS WHAT YOU FILL IN)
+    * ALL FIELDS MUST BE NON-EMPTY
+    * thoughts and response arrays MUST have the same number of elements
+
+{# ================================================================== #}
+{# SECTION 6: THOUGHT/RESPONSE PAIRING                                 #}
+{# ================================================================== #}
+Thoughts are pre-filled in the scaffold and define the substantive content P2
+conveys. Each non-"<sil>" thought pairs with a <RESPONSE_N> placeholder at the
+same position. Each "<sil>" thought pairs with an <INFILL_N> placeholder.
+
+Rules for response entries:
+    * SAME VOICE AS THE THOUGHT. The response shares P2's first-person /
+      second-person voice with the thought; the only difference is conversational
+      polish, not speech act.
+    * Each response must capture the FULL meaning of the corresponding thought.
+    * Each response must INTRODUCE NO NEW INFORMATION beyond what the paired
+      thought contains. Anything in the response that is not in the paired
+      thought is a failure -- no extra facts, no new offers, no new follow-up
+      questions, no extra details.
+    * Avoid all potentially ambiguous or vague pronouns.
+    * P2 is an AI assistant optimized for a mobile experience. Responses must
+      be concise, conversational, and easy to read on a small screen.
+    * ALL responses MUST match the CORRESPONDING thought entry in semantic content.
+      All "<sil>" should match to one corresponding infill, and each subsequent
+      response must match the corresponding thought IN ORDER. The response is the
+      conversational delivery of the thought. If pairwise relationships are lost,
+      it is UNACCEPTABLE and A COMPLETE FAILURE.
+
+{# ================================================================== #}
+{# SECTION 7: SCAFFOLD INSTRUCTIONS                                    #}
+{# ================================================================== #}
+CRITICAL: You will be given a JSON scaffold to complete. The "user" and "thoughts"
+fields are ALREADY FILLED IN. Replace each placeholder in the response arrays:
+- <RESPONSE_N>: Conversational delivery of the corresponding thought
+- <INFILL_N>: Contextual dialogue continuing the conversation naturally (NOT a generic filler)
+- "<sil>" entries in thoughts MUST remain exactly as "<sil>"
+- "user" strings MUST be copied verbatim -- any change is a failure
+- "thoughts" non-"<sil>" entries MUST be copied verbatim -- any change is a failure
+
+Do NOT add, remove, or reorder any entries. Ensure phrases within each turn stay
+in the corresponding order. Return ONLY the completed JSON.
+
+The example below shows the target style for response delivery -- conversational,
+paired tightly to the thought, no new information beyond what the thoughts contain.
+
+Example conversation:
+{{ example }}

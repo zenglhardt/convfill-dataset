@@ -1,0 +1,166 @@
+{# ================================================================== #}
+{# SECTION 1: CONVERSATION SETUP                                      #}
+{# ================================================================== #}
+Generate a {{ num_turns }}-turn conversation with two people, P1 and P2.
+    * All conversations are spoken out loud, so spell out any numbers or expressions, remove quotation marks around words.
+    * Both sides should be proactive and contribute to the conversation.
+    * P1 is {{ P1 }}
+    * P2 is {{ P2 }}
+    * Conversation topic: {{ topic }}
+    * Conversation MUST be EXACTLY {{ num_turns }} TURNS LONG and end naturally.
+    * All turns MUST have content.
+    * Allowed characters in user, thoughts, and response strings: English letters,
+      digits, spaces, and these punctuation marks ONLY: . , ! ? ; : ' - / ( ) "
+      DO NOT use underscores, asterisks, ampersands, brackets, braces, hash, dollar,
+      percent, or any other symbol. Spell out anything else (e.g. "and" not "&",
+      "dollars" not "$", "slash" only as the punctuation "/").
+    * Do not include names, all references should be in first or second person
+
+{# ================================================================== #}
+{# SECTION 2: RESPONSE RULES                                          #}
+{# ================================================================== #}
+Response Rules (how P2 actually speaks):
+    * The response array represents P2 speaking in real time, line by line.
+    * Some lines are "infill" -- contextually appropriate dialogue P2 says BEFORE
+      having the full answer. These are NOT generic fillers like "hmm" or "let me think."
+      Instead, they are natural continuations of the conversation: acknowledging what P1 said,
+      restating part of the question, offering a relevant opinion, showing understanding,
+      connecting to something already discussed, and so on. They should feel like a real person
+      naturally beginning to respond while thinking and formulating their answer.
+    * The remaining lines deliver the substantive information conversationally.
+    * Each response entry is the conversational delivery of its corresponding thought.
+      Keep responses tight rather than paragraph-length.
+    * Connect parts of turns naturally (adverbs, transitions, etc.)
+    * VARY the number of sentences per turn, EVERY ONE SHOULD BE DIFFERENT
+    * Turns should be standalone (DO NOT REFER TO PREVIOUS TURNS)
+    * DO NOT use discourse markers at the END of phrases, but naturally throughout is ok.
+    * Be nice and conversational; add words and phrases that bring a casual, calm, yet serious tone
+
+{# ================================================================== #}
+{# SECTION 3: INFILL SPECIFICATION (per-turn counts)                   #}
+{# ================================================================== #}
+INFILL LINE SPECIFICATION:
+    Each turn has a specified number of infill lines. These are contextual dialogue lines
+    P2 says before delivering substantive information -- NOT generic fillers.
+    Good infill lines:
+      - Acknowledge or react to what P1 specifically said
+      - Restate or reflect on the question in P2's own words
+      - Share a brief relevant opinion or experience that connects to the topic
+      - Show genuine engagement with the specific situation
+    Bad infill lines (DO NOT produce these):
+      - Generic fillers disconnected from context ("Hmm", "Let me think", "Good question")
+      - Empty acknowledgments that could apply to any conversation
+      - Phrases that stall without adding any contextual value
+
+    Per-turn infill counts (MUST be followed exactly):
+{{ sil_schedule_text }}
+
+    * If a turn specifies 0 infill lines, P2 jumps straight to substantive content.
+    * If a turn specifies N infill lines, the first N entries in response must be infill,
+      and the first N entries in thoughts must be "<sil>".
+    * After the infill lines, each turn MUST have between {{ substance_min }} and {{ substance_max }} substantive content lines.
+    * VARY the number of substance lines naturally across turns -- do not always use the same count.
+    * DO NOT lose track of order. Each infill or substantive response must stay aligned with its corresponding thought.
+
+{# ================================================================== #}
+{# SECTION 4: INFILL QUALITY                                          #}
+{# ================================================================== #}
+INFILL QUALITY REQUIREMENTS:
+    * Every infill line must be SPECIFIC to what P1 just said. A reader should be able to
+      infer things about the conversation just from the infill lines alone.
+    * Do NOT reuse the same phrase or pattern across turns.
+    * Infill lines should vary in type: some turns might acknowledge, others might restate,
+      others might share a brief opinion. Mix it up naturally.
+    * Infill lines should flow naturally into the substantive content that follows.
+
+{# ================================================================== #}
+{# SECTION 5: OUTPUT FORMAT                                            #}
+{# ================================================================== #}
+Output in JSON Format (ONLY the JSON, no commentary. Inside user, thoughts, and response strings,
+use ONLY: English letters, digits, whitespace, and the punctuation . , ! ? ; : ' - / ( ) "
+NO underscores, asterisks, ampersands, brackets, braces, or other symbols):
+    * The output MUST be wrapped in a "conversation" array containing turn objects
+    * Each turn object must have:
+        * user: What P1 says
+        * thoughts: Concise, direct information for each part of P2's turn (as an array of strings)
+        * response: How P2 actually says it in conversation (as an array of strings)
+    * ALL FIELDS MUST BE NON-EMPTY
+    * thoughts and response arrays MUST have the same number of elements
+
+{# ================================================================== #}
+{# SECTION 6: THOUGHTS RULES                                          #}
+{# ================================================================== #}
+Thoughts rules (the core information P2 wants to convey):
+    * Infill entries (matching the per-turn infill count above) MUST be "<sil>"
+    * Non-infill thoughts should read like a knowledgeable person's direct, concise answer.
+      No small talk, no personality, no filler -- just the core information or answer.
+      Write them as if a factual assistant were answering the question with no conversational polish.
+
+    * SAME VOICE AS RESPONSE. The thought IS the content P2 conveys -- not a self-instruction,
+      procedural note, or third-person description of what P2 plans to do. Thoughts share P2's
+      first-person/second-person voice with the response; the only difference is conversational
+      polish, not speech act. If a thought reads like a stage direction or note-to-self, rewrite
+      it as the actual content.
+
+      BAD (self-instruction / procedural note / third-person description):
+        "Need to verify the user's budget before recommending options."
+        "Ask the user about their preferred timeline."
+        "Tell the user about the warranty terms."
+        "Confirm whether they have any allergies."
+      GOOD (the actual content P2 would say, stripped of conversational polish):
+        "Going to need your budget before recommending options."
+        "What is your preferred timeline for this?"
+        "The warranty covers two years parts and labor."
+        "Any allergies I should know about?"
+
+    * ONE IDEA PER THOUGHT. A thought conveys ONE fact, one recommendation, or one question --
+      not several stitched together. Lists of related items inside a single idea are fine
+      (e.g. "consider country one, country two, or country three" -- this is ONE idea: a list
+      of country options). What is NOT fine is packing multiple distinct ideas into one thought.
+
+      BAD (three distinct ideas crammed into one thought):
+        "Charge fifty to one hundred fifty dollars per booth depending on size and location;
+         calculate total costs for permits, insurance, marketing, and rentals, then divide across
+         expected vendors to find your break-even price."
+      GOOD (each idea is its own thought, or just pick the most important if slots are limited):
+        thought 1: "Booth pricing typically runs fifty to one hundred fifty dollars depending on size."
+        thought 2: "Total your hard costs: permits, insurance, marketing, equipment rentals."
+        thought 3: "Divide total cost by expected vendor count to find your break-even price."
+
+    * NO compound sentences with multiple clauses linked by "because", "while", "and",
+      "which", "since", "so", or semicolons that combine distinct ideas. If you find yourself
+      writing one of those, the thought needs to be split or the secondary idea cut entirely.
+
+    * If you have MORE ideas to share than the turn has thought slots, pick the most important
+      ideas and DROP the rest. Do NOT cram multiple ideas into one slot. It is better to leave
+      ideas unsaid than to produce compound thoughts.
+    * P2 is an AI assistant optimized for a mobile experience. Your responses must be concise,
+      conversational, and easy to read on a small screen. Prioritize quick answers, actionable
+      information, and bullet points. Assume the user is on the go, utilizing touch inputs, and
+      looking for immediate, concise results.
+    * Avoid all potentially ambiguous or vague pronouns.
+    * Each thought must capture the FULL meaning of the corresponding response entry.
+    * ALL thoughts MUST match the CORRESPONDING response entry in semantic content. All "<sil>" should
+      match to 1 corresponding infill, and each subsequent response must match the corresponding thought
+      IN ORDER. The response is the conversational delivery of the thought. If pairwise relationships are
+      lost, it is UNACCEPTABLE and A COMPLETE FAILURE.
+
+{# ================================================================== #}
+{# SECTION 7: SCAFFOLD INSTRUCTIONS                                    #}
+{# ================================================================== #}
+CRITICAL: You will be given a JSON scaffold to complete. Replace each placeholder:
+- <USER>: What P1 says (a natural question or statement fitting the conversation)
+- <THOUGHT_N>: Concise, direct, factual thought (no filler, no personality)
+- <RESPONSE_N>: Conversational delivery of the corresponding thought
+- <INFILL_N>: Contextual dialogue that continues the conversation naturally (NOT a generic filler)
+- "<sil>" entries must remain exactly as "<sil>"
+
+Do NOT add, remove, or reorder any entries. Ensure phrases within each turn stay in the corresponding
+order. Return ONLY the completed JSON.
+
+The example below shows the target style for thoughts -- short, direct, factual notes rather
+than flowery paragraphs. Match that style; do not produce thoughts denser or more elaborate
+than the example's.
+
+Example conversation:
+{{ example }}
