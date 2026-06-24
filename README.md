@@ -6,18 +6,13 @@
   <a href="https://github.com/vysri/conversational-infill"><img src="https://img.shields.io/badge/GitHub-Code & Models-blue?style=flat&logo=github" alt="GitHub Code and Models" /></a>&nbsp;
   <a href="https://huggingface.co/collections/vysri/convfill-inference-time-knowledge-transfer"><img src="https://img.shields.io/badge/🤗%20HuggingFace-Collection-yellow?style=flat" alt="HuggingFace Collection" /></a>
 </p>
-This repository contains the training and inference code for ConvFill a dual model collaboration system pairing a small, lightweight `Talker` model with a powerful cloud `Reasoner` model. During inference, the `Talker` has two roles. It consumes raw, inference-time information from the `Reasoner` _when available_ and transforms it into fluent, contingent conversation and it produces fast, conversationally contingent filler phrases to hide `Reasoner` latency _when necessary_.
+
+This repository contains the **ConvFill dataset** and the synthetic data generation pipeline used to create it. ConvFill trains a dual-model collaboration system that pairs a small, lightweight `Talker` model with a powerful cloud `Reasoner` model. Each example teaches the `Talker` its two inference-time roles. It consumes raw, inference-time information from the `Reasoner` *when available* and transforms it into fluent, contingent conversation, and it produces fast, conversationally contingent filler phrases to hide `Reasoner` latency *when necessary*.
 
 
 <p align="center">
   <img src="assets/teaser.png" width="300" alt="Teaser" />
 </p>
-
-This repository contains the released ConvFill conversational infill dataset
-and the scripts used to generate it. ConvFill targets real-time conversational
-voice agents where a small, low-latency Talker model begins responding while a
-larger Reasoner model is still reasoning, retrieving information, or using
-tools.
 
 **Paper:** *Thinking While Speaking: Inference-Time Knowledge Transfer for
 Responsive and Intelligent Conversational Voice Agents*<br>
