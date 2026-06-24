@@ -1,4 +1,4 @@
-# ConvFill Dataset
+# ConvFill Dataset: Inference-Time Knowledge Transfer for Responsive and Intelligent Conversational Voice Agents
 
 <p align="center">
   <a href="https://huggingface.co/datasets/zenglhardt/convfill-dataset"><img src="https://img.shields.io/badge/🤗%20HuggingFace-Dataset-yellow?style=flat" alt="HuggingFace Dataset" /></a>&nbsp;
@@ -6,6 +6,8 @@
   <a href="https://github.com/vysri/conversational-infill"><img src="https://img.shields.io/badge/GitHub-Code & Models-blue?style=flat&logo=github" alt="GitHub Code and Models" /></a>&nbsp;
   <a href="https://huggingface.co/collections/vysri/convfill-inference-time-knowledge-transfer"><img src="https://img.shields.io/badge/🤗%20HuggingFace-Collection-yellow?style=flat" alt="HuggingFace Collection" /></a>
 </p>
+This repository contains the training and inference code for ConvFill a dual model collaboration system pairing a small, lightweight `Talker` model with a powerful cloud `Reasoner` model. During inference, the `Talker` has two roles. It consumes raw, inference-time information from the `Reasoner` _when available_ and transforms it into fluent, contingent conversation and it produces fast, conversationally contingent filler phrases to hide `Reasoner` latency _when necessary_.
+
 
 <p align="center">
   <img src="assets/teaser.png" width="300" alt="Teaser" />
