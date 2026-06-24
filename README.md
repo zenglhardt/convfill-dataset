@@ -51,8 +51,7 @@ one phrase-level training example for this task.
 
 ## Included Data
 
-The released data is in `generated_data/`. Each `.jsonl` file contains one
-conversation per line.
+The released data is in `generated_data/`. Each `.jsonl` file contains one conversation per line.
 
 | File | Conversations | Turns | Phrase examples | `<sil>` filler examples | Knowledge examples |
 | --- | ---: | ---: | ---: | ---: | ---: |
