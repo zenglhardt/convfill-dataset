@@ -1,5 +1,16 @@
 # ConvFill Dataset
 
+<p align="center">
+  <a href="https://huggingface.co/datasets/zenglhardt/convfill-dataset"><img src="https://img.shields.io/badge/🤗%20HuggingFace-Dataset-yellow?style=flat" alt="HuggingFace Dataset" /></a>&nbsp;
+  <a href="https://arxiv.org/abs/2511.07397"><img src="https://img.shields.io/badge/arXiv-2511.07397-b31b1b?style=flat&logo=arxiv" alt="arXiv" /></a>&nbsp;
+  <a href="https://github.com/vysri/conversational-infill"><img src="https://img.shields.io/badge/GitHub-Code & Models-blue?style=flat&logo=github" alt="GitHub Code and Models" /></a>&nbsp;
+  <a href="https://huggingface.co/collections/vysri/convfill-inference-time-knowledge-transfer"><img src="https://img.shields.io/badge/🤗%20HuggingFace-Collection-yellow?style=flat" alt="HuggingFace Collection" /></a>
+</p>
+
+<p align="center">
+  <img src="assets/teaser.png" width="300" alt="Teaser" />
+</p>
+
 This repository contains the released ConvFill conversational infill dataset
 and the scripts used to generate it. ConvFill targets real-time conversational
 voice agents where a small, low-latency Talker model begins responding while a
