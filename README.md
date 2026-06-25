@@ -11,7 +11,7 @@ This repository contains the **ConvFill dataset** and the synthetic data generat
 
 
 <p align="center">
-  <img src="assets/teaser.png" width="300" alt="Teaser" />
+  <img src="assets/teaser.png" width="300" alt="Teaser figure with system overview, depicting Talker-Reasoner collaboration./>
 </p>
 
 **Paper:** *Thinking While Speaking: Inference-Time Knowledge Transfer for
@@ -51,20 +51,20 @@ one phrase-level training example for this task.
 
 ## Included Data
 
-The released data is in `generated_data/`. Each `.jsonl` file contains one conversation per line.
+The released data is in `data/`. Each `.jsonl` file contains one conversation per line.
 
 | File | Conversations | Turns | Phrase examples | `<sil>` filler examples | Knowledge examples |
 | --- | ---: | ---: | ---: | ---: | ---: |
-| `conversations_v3_advice_full.jsonl` | 1,000 | 8,308 | 36,710 | 12,342 | 24,368 |
-| `conversations_v3_assistant_full.jsonl` | 1,000 | 8,408 | 37,495 | 12,676 | 24,819 |
-| `conversations_v3_cs_full.jsonl` | 1,000 | 8,313 | 35,862 | 12,147 | 23,715 |
-| `conversations_v3_education_full.jsonl` | 1,000 | 8,421 | 37,153 | 12,481 | 24,672 |
-| `conversations_v3_med_full.jsonl` | 1,000 | 8,400 | 37,246 | 12,540 | 24,706 |
-| `conversations_v3_planning_full.jsonl` | 1,005 | 8,474 | 37,488 | 12,655 | 24,833 |
-| `conversations_v3_scaffold_dstc8_full.jsonl` | 2,438 | 24,184 | 68,617 | 36,711 | 31,906 |
+| `conversations_advice.jsonl` | 1,000 | 8,308 | 36,710 | 12,342 | 24,368 |
+| `conversations_assistant.jsonl` | 1,000 | 8,408 | 37,495 | 12,676 | 24,819 |
+| `conversations_support.jsonl` | 1,000 | 8,313 | 35,862 | 12,147 | 23,715 |
+| `conversations_education.jsonl` | 1,000 | 8,421 | 37,153 | 12,481 | 24,672 |
+| `conversations_medical.jsonl` | 1,000 | 8,400 | 37,246 | 12,540 | 24,706 |
+| `conversations_planning.jsonl` | 1,005 | 8,474 | 37,488 | 12,655 | 24,833 |
+| `conversations_dstc8_scaffold.jsonl` | 2,438 | 24,184 | 68,617 | 36,711 | 31,906 |
 | **Total** | **8,443** | **74,508** | **290,571** | **111,552** | **179,019** |
 
-`generated_data/dataset_stats.csv` contains the same statistics in CSV form.
+`data/dataset_stats.csv` contains the same statistics in CSV form.
 
 The dataset is fully in English. The six freeform files cover advice, general
 assistant queries, customer service, education, medicine, and planning. The
@@ -292,13 +292,13 @@ This repository uses separate licenses for code and data.
 ## Citation
 
 If you use the ConvFill dataset, generation pipeline, or find this repository
-helpful, please cite the ConvFill paper:
+helpful, please cite the following paper:
 
 ```bibtex
-@misc{srinivas2026thinking,
+@misc{srinivas2025thinking,
   title = {Thinking While Speaking: Inference-Time Knowledge Transfer for Responsive and Intelligent Conversational Voice Agents},
   author = {Srinivas, Vidya and Englhardt, Zachary and Iyer, Vikram and Patel, Shwetak},
-  year = {2026},
+  year = {2025},
   note = {arXiv:2511.07397},
   url = {https://arxiv.org/abs/2511.07397}
 }
