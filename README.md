@@ -295,12 +295,14 @@ If you use the ConvFill dataset, generation pipeline, or find this repository
 helpful, please cite the ConvFill paper:
 
 ```bibtex
-@misc{srinivas2026thinking,
-  title = {Thinking While Speaking: Inference-Time Knowledge Transfer for Responsive and Intelligent Conversational Voice Agents},
-  author = {Srinivas, Vidya and Englhardt, Zachary and Iyer, Vikram and Patel, Shwetak},
-  year = {2026},
-  note = {arXiv:2511.07397},
-  url = {https://arxiv.org/abs/2511.07397}
+@misc{srinivas2026thinkingspeakinginferencetimeknowledge,
+      title={Thinking While Speaking: Inference-Time Knowledge Transfer for Responsive and Intelligent Conversational Voice Agents}, 
+      author={Vidya Srinivas and Zachary Englhardt and Shwetak Patel and Vikram Iyer},
+      year={2026},
+      eprint={2511.07397},
+      archivePrefix={arXiv},
+      primaryClass={cs.CL},
+      url={https://arxiv.org/abs/2511.07397}, 
 }
 ```
 
