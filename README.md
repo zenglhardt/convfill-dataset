@@ -1,53 +1,39 @@
-# ConvFill Dataset: Inference-Time Knowledge Transfer for Responsive and Intelligent Conversational Voice Agents
+# ConvFill Dataset
 
 <p align="center">
   <a href="https://huggingface.co/datasets/zenglhardt/convfill-dataset"><img src="https://img.shields.io/badge/🤗%20HuggingFace-Dataset-yellow?style=flat" alt="HuggingFace Dataset" /></a>&nbsp;
   <a href="https://arxiv.org/abs/2511.07397"><img src="https://img.shields.io/badge/arXiv-2511.07397-b31b1b?style=flat&logo=arxiv" alt="arXiv" /></a>&nbsp;
-  <a href="https://github.com/vysri/conversational-infill"><img src="https://img.shields.io/badge/GitHub-Code & Models-blue?style=flat&logo=github" alt="GitHub Code and Models" /></a>&nbsp;
+  <a href="https://github.com/vysri/conversational-infill"><img src="https://img.shields.io/badge/GitHub-Code%20%26%20Models-blue?style=flat&logo=github" alt="GitHub Code and Models" /></a>&nbsp;
   <a href="https://huggingface.co/collections/vysri/convfill-inference-time-knowledge-transfer"><img src="https://img.shields.io/badge/🤗%20HuggingFace-Collection-yellow?style=flat" alt="HuggingFace Collection" /></a>
 </p>
 
-This repository contains the **ConvFill dataset** and the synthetic data generation pipeline used to create it. ConvFill trains a dual-model collaboration system that pairs a small, lightweight `Talker` model with a powerful cloud `Reasoner` model. Each example teaches the `Talker` its two inference-time roles. It consumes raw, inference-time information from the `Reasoner` *when available* and transforms it into fluent, contingent conversation, and it produces fast, conversationally contingent filler phrases to hide `Reasoner` latency *when necessary*.
-
+The **ConvFill dataset** is a corpus of 290,571 training examples for *conversational infill*: keeping a voice agent responsive by pairing a small, low-latency **Talker** model that runs on-device with a large cloud **Reasoner** model that reasons, retrieves, and calls tools in the background. The Talker responds to the user immediately and folds in the Reasoner's knowledge as it streams in, so the conversation never stalls while the Reasoner works.
 
 <p align="center">
-  <img src="assets/teaser.png" width="300" alt="Teaser figure with system overview, depicting Talker-Reasoner collaboration./>
+  <img src="assets/teaser.png" width="300" alt="Teaser figure with system overview, depicting Talker-Reasoner collaboration." />
 </p>
 
-**Paper:** *Thinking While Speaking: Inference-Time Knowledge Transfer for
-Responsive and Intelligent Conversational Voice Agents*<br>
-[https://arxiv.org/abs/2511.07397](https://arxiv.org/abs/2511.07397)
+Alongside the released data — also available on [Hugging Face](https://huggingface.co/datasets/zenglhardt/convfill-dataset) — this repository includes the synthetic generation pipeline used to create the dataset and the validation tooling (structural, NLI, BERTScore, and proper-noun checks) that enforces sample quality. The sections below document the data format and the workflow for reproducing or extending the dataset; see the [paper](https://arxiv.org/abs/2511.07397) for the formal task definition, training setup, and evaluation.
 
-**Authors:** Vidya Srinivas*, Zachary Englhardt*, Vikram Iyer, Shwetak Patel<br>
-Paul G. Allen School of Computer Science & Engineering<br>
-`{vysri, zacharye}@cs.washington.edu`<br>
-*Equal contribution.
+> ***Looking for the models, training code, or the end-to-end voice system?** Those live in the main [**ConvFill repository**](https://github.com/vysri/conversational-infill).*
 
-**License:** code and supporting release files are MIT; data, topic seeds, and examples are CC BY-SA 4.0.
-
-If you use this dataset, generation code, or find the repository helpful,
-please cite the paper. The README gives a practical overview of the data format
-and reproduction workflow, but the paper should be read for the formal task
-definition, training setup, and evaluation details.
+**Paper:** [***Thinking While Speaking: Inference-Time Knowledge Transfer for Responsive and Intelligent Conversational Voice Agents***](https://arxiv.org/abs/2511.07397)<br>
+**Authors:** Vidya Srinivas\*, Zachary Englhardt\*, Vikram Iyer, Shwetak Patel — Paul G. Allen School of Computer Science & Engineering, University of Washington. \*Equal contribution.
 
 ## Dataset Overview
 
-ConvFill targets real-time conversational voice agents where a small,
-low-latency frontend model must start speaking while a larger backend model is
-still reasoning, retrieving information, or using tools.
+Each example captures one step of the **Talker/Reasoner** interaction the paper
+defines:
 
-The paper frames this as a **Talker/Reasoner** architecture:
+- The **Reasoner** is a high-capability cloud model. It produces a stream of
+  concise knowledge chunks for the current user turn; until it has a chunk ready,
+  the stream emits a `<sil>` (silence) token.
+- The **Talker** is a lightweight, on-device model. It emits one response phrase
+  for each Reasoner stream item — grounded, context-aware filler when the chunk
+  is `<sil>`, or a fluent conversational rendering of an actual knowledge chunk.
 
-- The **Reasoner** is a high-capability backend model. It produces a stream of
-  concise knowledge chunks for the current user turn. If it has not produced a
-  chunk yet, the stream contains a `<sil>` token.
-- The **Talker** is a lightweight frontend model. It emits one response phrase
-  for each Reasoner stream item. For `<sil>`, it should produce grounded,
-  context-aware filler. For a knowledge chunk, it should turn that information
-  into fluent and contextually coherent conversational speech.
-
-In the dataset, each aligned `thoughts[i]` and `response[i]` pair represents
-one phrase-level training example for this task.
+Each aligned `thoughts[i]` and `response[i]` pair is therefore one phrase-level
+training example.
 
 ## Included Data
 
@@ -68,9 +54,9 @@ The released data is in `data/`. Each `.jsonl` file contains one conversation pe
 
 The dataset is fully in English. The six freeform files cover advice, general
 assistant queries, customer service, education, medicine, and planning. The
-`scaffold_dstc8` file is generated from Schema-Guided Dialogue (SGD / DSTC8)
-conversation scaffolds and includes top-level `scaffold_metadata` with the SGD
-service and dialogue id.
+`conversations_dstc8_scaffold.jsonl` file is generated from Schema-Guided
+Dialogue (SGD / DSTC8) conversation scaffolds and includes top-level
+`scaffold_metadata` with the SGD service and dialogue id.
 
 ## Data Format
 
@@ -106,7 +92,7 @@ For every turn:
 - `response[i]` is aligned to `thoughts[i]`.
 
 When `thoughts[i] == "<sil>"`, `response[i]` is a filler phrase that should
-continue the conversation without inventing unavailable backend information.
+continue the conversation without inventing unavailable `Reasoner` knowledge.
 Otherwise, `response[i]` should conversationally convey the information in
 `thoughts[i]`.
 
@@ -118,10 +104,7 @@ The data can be loaded with the Python standard library:
 import json
 from pathlib import Path
 
-for path in sorted(Path("generated_data").glob("*.jsonl")):
-    if path.name == "dataset_stats.csv":
-        continue
-
+for path in sorted(Path("data").glob("*.jsonl")):
     with path.open() as f:
         for line in f:
             record = json.loads(line)
@@ -145,7 +128,8 @@ task formulation and formatting used in the ConvFill experiments.
 
 ## Repository Layout
 
-- `generated_data/`: released JSONL dataset and dataset statistics.
+- `data/`: released JSONL dataset and dataset statistics.
+- `generated_data/`: default output directory for the generation pipeline, created when you regenerate or extend the dataset.
 - `configs/`: generation configs for each dataset subset.
 - `examples/`: few-shot examples used by generation prompts.
 - `topics/`: topic seeds for the freeform generation subsets.
@@ -158,7 +142,7 @@ task formulation and formatting used in the ConvFill experiments.
 ## Recreating or Extending the Dataset
 
 If you are only planning on using the dataset, you only need the files located
-in `generated_data/`. However, we have included the generation pipeline to aid
+in `data/`. However, we have included the generation pipeline to aid
 in reproducing or extending the dataset.
 
 ### Environment
@@ -250,7 +234,7 @@ If the SGD dataset lives elsewhere, update `SGD_DATA_PATH` in
 ### Important Config Fields
 
 - `PROVIDER`, `MODEL_NAME`, `TEMPERATURE`, `MAX_TOKENS`,
-  `CALLS_PER_MINUTE`: backend model settings.
+  `CALLS_PER_MINUTE`: generation model settings.
 - `EXPERIMENT_NAME`, `OUTPUT_DIR`, `CACHE_DIR`: output and cache locations.
 - `TOPICS_FILENAME`, `EXAMPLE_PATH`: freeform generation inputs.
 - `GENERATION_MODE`: `freeform` or `scaffold`.
@@ -271,8 +255,12 @@ dataset was ~$2,400 using Claude Opus 4.6 in early 2026.
 python src/evals/generated_data_stats.py
 ```
 
-This reads `generated_data/*.jsonl` and writes
-`generated_data/dataset_stats.csv`.
+By default this reads `data/*.jsonl` and writes `data/dataset_stats.csv`. To
+summarize a fresh generation run instead, point it at the output directory:
+
+```bash
+python src/evals/generated_data_stats.py --input-dir generated_data --output generated_data/dataset_stats.csv
+```
 
 ## License
 
@@ -282,12 +270,13 @@ This repository uses separate licenses for code and data.
   `prompt_template.txt`, `prompt_template_scaffold.txt`, `requirements.txt`,
   and this README are released under the MIT License. See
   `LICENSE-CODE-MIT.txt`.
-- **Data** in `generated_data/`, topic seeds in `topics/`, and few-shot
+- **Data** in `data/`, topic seeds in `topics/`, and few-shot
   examples in `examples/` are released under Creative Commons
   Attribution-ShareAlike 4.0 International (CC BY-SA 4.0). See
   `LICENSE-DATA-CC-BY-SA-4.0.txt`.
-- The DSTC8/SGD scaffold subset is derived from the Schema-Guided Dialogue
-  dataset, which is also released under CC BY-SA 4.0.
+- The DSTC8/SGD scaffold subset is derived from the [Schema-Guided Dialogue
+  dataset](https://github.com/google-research-datasets/dstc8-schema-guided-dialogue),
+  which is also released under CC BY-SA 4.0.
 
 ## Citation
 
@@ -297,7 +286,7 @@ helpful, please cite the following paper:
 ```bibtex
 @misc{srinivas2026thinkingspeakinginferencetimeknowledge,
       title={Thinking While Speaking: Inference-Time Knowledge Transfer for Responsive and Intelligent Conversational Voice Agents}, 
-      author={Vidya Srinivas and Zachary Englhardt and Shwetak Patel and Vikram Iyer},
+      author={Vidya Srinivas and Zachary Englhardt and Vikram Iyer and Shwetak Patel},
       year={2026},
       eprint={2511.07397},
       archivePrefix={arXiv},

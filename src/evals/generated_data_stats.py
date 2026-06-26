@@ -18,8 +18,8 @@ Outputs the following stats for all of the conversation sets in the generated da
 """
 
 REPO_ROOT = Path(__file__).resolve().parents[2]
-DEFAULT_GENERATED_DATA_DIR = REPO_ROOT / "generated_data"
-DEFAULT_OUTPUT_PATH = DEFAULT_GENERATED_DATA_DIR / "dataset_stats.csv"
+DEFAULT_DATA_DIR = REPO_ROOT / "data"
+DEFAULT_OUTPUT_PATH = DEFAULT_DATA_DIR / "dataset_stats.csv"
 
 
 def get_file_list(path_in):
@@ -103,8 +103,8 @@ def main() -> None:
     parser.add_argument(
         "--input-dir",
         type=Path,
-        default=DEFAULT_GENERATED_DATA_DIR,
-        help="Directory containing generated JSONL files.",
+        default=DEFAULT_DATA_DIR,
+        help="Directory containing the dataset JSONL files (default: data/). Pass generated_data/ to summarize a fresh generation run.",
     )
     parser.add_argument(
         "--output",
